@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../common/LoadingSpinner';
 import JoblyApi from '../api/api';
 import CompanyCard from './CompanyCard';
+import SearchForm from '../common/SearchForm';
 
 export default function CompanyList() {
     console.debug('CompanyList');
@@ -21,7 +22,8 @@ export default function CompanyList() {
     if (!companies) return <LoadingSpinner />;
 
     return (
-        <div className="CompanyList col-md-8 offset-md-2">
+        <div className="CompanyList">
+            <SearchForm searchFor={search} />
             {companies.length ? (
                 <div className="CompanyList-list">
                     {companies.map((c) => (
