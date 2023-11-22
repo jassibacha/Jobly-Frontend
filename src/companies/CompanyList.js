@@ -23,7 +23,13 @@ export default function CompanyList() {
 
     return (
         <div className="CompanyList">
-            <SearchForm searchFor={search} />
+            <div className="bg-light p-5 rounded-lg mb-5">
+                <h1 className="display-4">Find Your Dream Company</h1>
+                <p className="lead">
+                    Search through our extensive company listings
+                </p>
+                <SearchForm searchFor={search} />
+            </div>
             {companies.length ? (
                 <div className="CompanyList-list">
                     {companies.map((c) => (
