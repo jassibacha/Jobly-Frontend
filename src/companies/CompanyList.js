@@ -24,12 +24,14 @@ export default function CompanyList() {
             {companies.length ? (
                 <div className="CompanyList-list">
                     {companies.map((c) => (
-                        <div>
-                            <h4>{c.name}</h4>
+                        <div key={c.handle}>
+                            <h4>
+                                <a href={`/companies/${c.handle}`}>{c.name}</a>
+                            </h4>
                             <div className="CompanyCard">
                                 <p>Desc: {c.description}</p>
-                                <p>Employees: {c.num_employees}</p>
-                                <p>Logo: {c.logo_url}</p>
+                                <p>Employees: {c.numEmployees}</p>
+                                <p>Logo: {c.logoUrl}</p>
                             </div>
                         </div>
                         // <CompanyCard
