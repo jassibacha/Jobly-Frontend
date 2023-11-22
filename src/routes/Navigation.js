@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Navigation() {
     return (
         <nav>
-            <Link to="/">Home</Link>
-            <Link to="/companies">Companies</Link>
+            <NavLink className="text-white me-3" to="/">
+                Home
+            </NavLink>
+            <NavLink className="text-white" to="/companies">
+                Companies
+            </NavLink>
         </nav>
     );
 }
