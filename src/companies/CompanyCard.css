@@ -1,0 +1,26 @@
+.card-body-flex {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content on small screens */
+    text-align: center;
+}
+
+.card-img-left {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px; /* Adds spacing below the image on small screens */
+}
+
+@media screen and (min-width: 768px) {
+    .card-body-flex {
+        flex-direction: row;
+        align-items: center; /* Align items horizontally on large screens */
+        text-align: left;
+    }
+
+    .card-img-left {
+        margin-right: 15px; /* Adds spacing to the right of the image */
+        margin-bottom: 0; /* Removes the bottom margin on large screens */
+    }
+}

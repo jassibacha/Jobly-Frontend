@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../common/LoadingSpinner';
 import JoblyApi from '../api/api';
+import CompanyCard from './CompanyCard';
 
 export default function CompanyList() {
     console.debug('CompanyList');
@@ -24,24 +25,14 @@ export default function CompanyList() {
             {companies.length ? (
                 <div className="CompanyList-list">
                     {companies.map((c) => (
-                        <div key={c.handle}>
-                            <h4>
-                                <a href={`/companies/${c.handle}`}>{c.name}</a>
-                            </h4>
-                            <div className="CompanyCard">
-                                <p>Desc: {c.description}</p>
-                                <p>Employees: {c.numEmployees}</p>
-                                <p>Logo: {c.logoUrl}</p>
-                            </div>
-                        </div>
-                        // <CompanyCard
-                        //     key={c.handle}
-                        //     handle={c.handle}
-                        //     name={c.name}
-                        //     description={c.description}
-                        //     numEmployees={c.num_employees}
-                        //     logoUrl={c.logo_url}
-                        // />
+                        <CompanyCard
+                            key={c.handle}
+                            handle={c.handle}
+                            name={c.name}
+                            description={c.description}
+                            numEmployees={c.numEmployees}
+                            logoUrl={c.logoUrl}
+                        />
                     ))}
                 </div>
             ) : (
