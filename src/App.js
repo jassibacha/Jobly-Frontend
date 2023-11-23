@@ -6,6 +6,7 @@ import JoblyApi from './api/api';
 import LoadingSpinner from './common/LoadingSpinner';
 import { jwtDecode } from 'jwt-decode';
 import UserContext from './auth/UserContext';
+import useLocalStorage from './hooks/useLocalStorage';
 
 // Setup our token storage ID for localStorage
 const TOKEN_STORAGE_ID = 'jobly-token';
@@ -20,8 +21,7 @@ const TOKEN_STORAGE_ID = 'jobly-token';
  *
  * - token: for logged in users, this is their authentication JWT.
  *   Is required to be set for most API calls. This is initially read from
- *   localStorage.
- *   TODO: Make a hook to handle this localStorage stuff
+ *   localStorage via useLocalStorage hook.
  *
  * App -> Routes
  */
@@ -29,22 +29,13 @@ const TOKEN_STORAGE_ID = 'jobly-token';
 function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem(TOKEN_STORAGE_ID));
+    const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
     console.debug(
         `App // infoLoaded=${infoLoaded}, 
         currentUser=${currentUser}, 
         token=${token}`
     );
-
-    // Synchronize token state with localStorage
-    useEffect(() => {
-        if (token) {
-            localStorage.setItem(TOKEN_STORAGE_ID, token); // Save token to localStorage
-        } else {
-            localStorage.removeItem(TOKEN_STORAGE_ID); // Remove token from localStorage
-        }
-    }, [token]);
 
     // Load user info from API. Until a user is logged in and they have a token,
     // this should not run. It only needs to re-run when a user logs out, so
