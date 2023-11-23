@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import JoblyApi from '../api/api';
+import { useNavigate, Link } from 'react-router-dom';
 
 /**
  * Component for the signup form.
@@ -49,61 +48,117 @@ function SignupForm({ signup }) {
     }
 
     return (
-        <form onSubmit={handleSignup}>
-            <label>
-                Username
-                <input
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Password
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                First Name
-                <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Last Name
-                <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Email
-                <input
-                    type="text"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
-            </label>
+        <form className="SignupForm">
+            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <h2 className="mb-3 text-center">Sign Up</h2>
 
-            {/* Make an alert div later */}
-            {formErrors.length ? (
-                <div className="alert">{formErrors}</div>
-            ) : null}
+                <div className="card text-left">
+                    <div className="card-body text-left">
+                        <form onSubmit={handleSignup}>
+                            <div className="form-group mb-3">
+                                <label
+                                    htmlFor="username"
+                                    className="form-label"
+                                >
+                                    Username
+                                </label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    className="form-control"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                />
+                            </div>
 
-            <button type="submit" className="btn btn-success">
-                Sign Up
-            </button>
+                            <div className="form-group mb-3">
+                                <label
+                                    htmlFor="password"
+                                    className="form-label"
+                                >
+                                    Password
+                                </label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    className="form-control"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="form-group mb-3">
+                                <label
+                                    htmlFor="firstName"
+                                    className="form-label"
+                                >
+                                    First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    className="form-control"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="form-group mb-3">
+                                <label
+                                    htmlFor="lastName"
+                                    className="form-label"
+                                >
+                                    Last Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    className="form-control"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="form-group mb-4">
+                                <label htmlFor="email" className="form-label">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    className="form-control"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            {formErrors.length ? (
+                                <div className="alert alert-danger">
+                                    {formErrors}
+                                </div>
+                            ) : null}
+
+                            <button
+                                type="submit"
+                                className="btn btn-success w-100 mb-3"
+                            >
+                                Sign Up
+                            </button>
+
+                            <div className="text-center">
+                                <Link to="/login">
+                                    Already have an account? Log in.
+                                </Link>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </form>
     );
 }

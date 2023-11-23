@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function LoginForm({ login }) {
     const navigate = useNavigate();
@@ -22,6 +22,8 @@ function LoginForm({ login }) {
         console.log('Login handleSubmit Result', result);
         if (result.success) {
             console.log('Result success, redirecting to /companies');
+            // Navigate is having issues with redirect, might be a state issue
+            // We might need to set a timeout here
             navigate('/companies');
         } else {
             setFormErrors(result.errors);
@@ -40,36 +42,58 @@ function LoginForm({ login }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    className="form-control"
-                    value={formData.username}
-                    onChange={handleChange}
-                />
+        <div className="LoginForm">
+            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <h2 className="mb-3 text-center">Login</h2>
+
+                <div className="card text-left">
+                    <div className="card-body text-left">
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group mb-3">
+                                <label htmlFor="username">Username</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    className="form-control"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="form-group mb-4">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    className="form-control"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            {formErrors.length ? (
+                                <div className="alert alert-danger">
+                                    {formErrors}
+                                </div>
+                            ) : null}
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary w-100 mb-4"
+                            >
+                                Login
+                            </button>
+
+                            <div className="text-center">
+                                <Link to="/signup">No account? Sign up.</Link>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    className="form-control"
-                    value={formData.password}
-                    onChange={handleChange}
-                />
-            </div>
-            {formErrors.length ? (
-                <div className="alert">{formErrors}</div>
-            ) : null}
-            <button type="submit" className="btn btn-primary">
-                Login
-            </button>
-        </form>
+        </div>
     );
 }
 
