@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import UserContext from '../auth/UserContext';
 
-export default function Navigation() {
+export default function Navigation({ logout }) {
+    const { currentUser } = useContext(UserContext);
     return (
         <ul className="navbar-nav ms-auto">
             <li className="nav-item">
@@ -29,6 +31,11 @@ export default function Navigation() {
                     Login
                 </NavLink>
             </li>
+            {currentUser && (
+                <button onClick={logout} className="btn btn-danger">
+                    Logout
+                </button>
+            )}
         </ul>
     );
 }

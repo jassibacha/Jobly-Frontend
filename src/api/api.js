@@ -42,8 +42,9 @@ class JoblyApi {
         return res.token;
     }
 
-    /** Register */
-    static async register(data) {
+    /** Sign Up / Register */
+    static async signup(data) {
+        console.log('Sending data to register:', data);
         let res = await this.request(`auth/register`, data, 'post');
         return res.token;
     }
@@ -105,6 +106,6 @@ class JoblyApi {
 }
 
 // for now, put token ("testuser" / "password" on class)
-JoblyApi.token = process.env.REACT_APP_API_TOKEN;
+// JoblyApi.token = process.env.REACT_APP_API_TOKEN;
 
 export default JoblyApi;

@@ -2,7 +2,7 @@ import React from 'react';
 import Navigation from '../routes/Navigation';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ logout }) {
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
             <div className="container-fluid">
@@ -21,7 +21,7 @@ function Header() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <Navigation />
+                    <Navigation logout={logout} />
                 </div>
             </div>
         </nav>
