@@ -6,35 +6,42 @@ export default function Navigation({ logout }) {
     const { currentUser } = useContext(UserContext);
     return (
         <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-                <NavLink className="nav-link" to="/">
-                    Home
-                </NavLink>
-            </li>
-            <li className="nav-item">
-                <NavLink className="nav-link" to="/companies">
-                    Companies
-                </NavLink>
-            </li>
-            <li className="nav-item">
-                <NavLink className="nav-link" to="/jobs">
-                    Jobs
-                </NavLink>
-            </li>
-            <li className="nav-item">
-                <NavLink className="nav-link" to="/signup">
-                    Signup
-                </NavLink>
-            </li>
-            <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                    Login
-                </NavLink>
-            </li>
-            {currentUser && (
-                <button onClick={logout} className="btn btn-danger">
-                    Logout
-                </button>
+            {currentUser ? (
+                <>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/companies">
+                            Companies
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/jobs">
+                            Jobs
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/profile">
+                            Profile
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <button onClick={logout} className="btn btn-danger">
+                            Logout
+                        </button>
+                    </li>
+                </>
+            ) : (
+                <>
+                    <li className="nav-item">
+                        <NavLink className="btn btn-success me-2" to="/signup">
+                            Signup
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className="btn btn-primary" to="/login">
+                            Login
+                        </NavLink>
+                    </li>
+                </>
             )}
         </ul>
     );
