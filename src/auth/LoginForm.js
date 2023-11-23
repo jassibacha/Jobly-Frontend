@@ -19,7 +19,9 @@ function LoginForm({ login }) {
         evt.preventDefault();
 
         let result = await login(formData);
+        console.log('Login handleSubmit Result', result);
         if (result.success) {
+            console.log('Result success, redirecting to /companies');
             navigate('/companies');
         } else {
             setFormErrors(result.errors);

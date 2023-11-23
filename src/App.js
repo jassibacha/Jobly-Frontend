@@ -13,13 +13,22 @@ const TOKEN_STORAGE_ID = 'jobly-token';
 function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem(TOKEN_STORAGE_ID));
 
     console.debug(
         `App // infoLoaded=${infoLoaded}, 
         currentUser=${currentUser}, 
         token=${token}`
     );
+
+    // Update localStorage when token changes
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem(TOKEN_STORAGE_ID, token);
+        } else {
+            localStorage.removeItem(TOKEN_STORAGE_ID);
+        }
+    }, [token]);
 
     // Load user info from API. Until a user is logged in and they have a token,
     // this should not run. It only needs to re-run when a user logs out, so
@@ -65,7 +74,7 @@ function App() {
     /** Handles site-wide logout. */
     function logout() {
         setCurrentUser(null);
-        setToken(null);
+        setToken(null); // Also removes from localStorage
     }
 
     /**
