@@ -10,6 +10,22 @@ import UserContext from './auth/UserContext';
 // Setup our token storage ID for localStorage
 const TOKEN_STORAGE_ID = 'jobly-token';
 
+/** Jobly application.
+ *
+ * - infoLoaded: has user data been pulled from API?
+ *   (this manages spinner for "loading...")
+ *
+ * - currentUser: user obj from API. This becomes the canonical way to tell
+ *   if someone is logged in. This is passed around via context throughout app.
+ *
+ * - token: for logged in users, this is their authentication JWT.
+ *   Is required to be set for most API calls. This is initially read from
+ *   localStorage.
+ *   TODO: Make a hook to handle this localStorage stuff
+ *
+ * App -> Routes
+ */
+
 function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
@@ -21,19 +37,18 @@ function App() {
         token=${token}`
     );
 
-    // Update localStorage when token changes
+    // Synchronize token state with localStorage
     useEffect(() => {
         if (token) {
-            localStorage.setItem(TOKEN_STORAGE_ID, token);
+            localStorage.setItem(TOKEN_STORAGE_ID, token); // Save token to localStorage
         } else {
-            localStorage.removeItem(TOKEN_STORAGE_ID);
+            localStorage.removeItem(TOKEN_STORAGE_ID); // Remove token from localStorage
         }
     }, [token]);
 
     // Load user info from API. Until a user is logged in and they have a token,
     // this should not run. It only needs to re-run when a user logs out, so
     // the value of the token is a dependency for this effect.
-
     useEffect(
         function loadUserInfo() {
             console.debug('App useEffect loadUserInfo', 'token=', token);
@@ -41,7 +56,7 @@ function App() {
             async function getCurrentUser() {
                 if (token) {
                     try {
-                        let { username } = jwtDecode(token);
+                        let { username } = jwtDecode(token); // Decode username from token
                         console.log(
                             'Getting current user',
                             'token=',
@@ -49,32 +64,27 @@ function App() {
                             'username=',
                             username
                         );
-                        // put the token on the Api class so it can use it to call the API.
-                        JoblyApi.token = token;
-
-                        let currentUser = await JoblyApi.getUser(username);
-                        setCurrentUser(currentUser);
+                        JoblyApi.token = token; // Set token in API class for future requests
+                        let currentUser = await JoblyApi.getUser(username); // Fetch user data
+                        setCurrentUser(currentUser); // Set user data in state
                     } catch (err) {
                         console.error('App loadUserInfo: problem loading', err);
-                        setCurrentUser(null);
+                        setCurrentUser(null); // Reset user data on error
                     }
                 }
-                setInfoLoaded(true); // Set infoLoaded to true after the API call
+                setInfoLoaded(true); // Indicate loading is complete
             }
 
-            // set infoLoaded to false while async getCurrentUser runs; once the
-            // data is fetched (or even if an error happens!), this will be set back
-            // to false to control the spinner.
-            setInfoLoaded(false);
-            getCurrentUser();
+            setInfoLoaded(false); // Reset loading state before API call
+            getCurrentUser(); // Trigger user data loading
         },
         [token]
     );
 
-    /** Handles site-wide logout. */
+    // Function to handle logout
     function logout() {
-        setCurrentUser(null);
-        setToken(null); // Also removes from localStorage
+        setCurrentUser(null); // Clear current user
+        setToken(null); // Clear token and remove from localStorage
     }
 
     /**
@@ -83,16 +93,10 @@ function App() {
     async function signup(signupData) {
         console.log('Signup data:', signupData);
         try {
-            // Call the signup API and get the token
-            let token = await JoblyApi.signup(signupData);
-
-            // Set the obtained token
-            setToken(token);
-
-            // Return success status
+            let token = await JoblyApi.signup(signupData); // Call signup API
+            setToken(token); // Set received token
             return { success: true };
         } catch (errors) {
-            // Log the error and return the error response
             console.error('Signup Failed', errors);
             return { success: false, errors };
         }
@@ -103,29 +107,23 @@ function App() {
      */
     async function login(loginData) {
         try {
-            // Call the login method of the JoblyApi and retrieve the token
-            let token = await JoblyApi.login(loginData);
-
-            // Set the token in the application state
-            setToken(token);
-
-            // Return an object indicating the success of the login operation
+            let token = await JoblyApi.login(loginData); // Call login API
+            setToken(token); // Set received token
             return { success: true };
         } catch (errors) {
-            // Log the error message if the login operation fails
             console.error('Login Failed', errors);
-
-            // Return an object indicating the failure of the login operation along with the error message
             return { success: false, errors };
         }
     }
 
+    // Show spinner while loading user data
     if (!infoLoaded) return <LoadingSpinner />;
 
     return (
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
             <div className="App">
                 <AppRoutes login={login} signup={signup} logout={logout} />
+                {/* Display token for debugging */}
                 {token ? <p>Token: {token}</p> : <p>No token found</p>}
             </div>
         </UserContext.Provider>
