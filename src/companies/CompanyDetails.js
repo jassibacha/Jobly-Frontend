@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import JoblyApi from '../api/api';
 import LoadingSpinner from '../common/LoadingSpinner';
+import JobsCard from '../jobs/JobsCard';
+import CompanyCard from './CompanyCard';
 
 function CompanyDetails() {
     const [company, setCompany] = useState(null);
@@ -24,27 +26,33 @@ function CompanyDetails() {
 
     return (
         <div>
-            <h2>{company.name}</h2>
-            <p>{company.description}</p>
-            <p>Number of Employees: {company.numEmployees}</p>
-            {company.logoUrl && (
-                <img src={company.logoUrl} alt={`${company.name} Logo`} />
-            )}
+            <CompanyCard
+                handle={company.handle}
+                name={company.name}
+                description={company.description}
+                numEmployees={company.numEmployees}
+                logoUrl={company.logoUrl}
+                // Add any other props that CompanyCard might need
+            />
             <div className="job-listings">
-                <h3>Job Listings</h3>
-                {company.jobs && company.jobs.length > 0 ? (
-                    <ul>
-                        {company.jobs.map((job) => (
-                            <li key={job.id}>
-                                <h4>{job.title}</h4>
-                                <p>Salary: {job.salary}</p>
-                                <p>Equity: {job.equity}</p>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No job listings available.</p>
-                )}
+                <h3 className="mb-3">Job Listings</h3>
+                <div className="row">
+                    {company.jobs && company.jobs.length > 0 ? (
+                        company.jobs.map((job) => (
+                            <div className="col-lg-6" key={job.id}>
+                                <JobsCard
+                                    title={job.title}
+                                    salary={job.salary}
+                                    equity={job.equity}
+                                    companyName={company.name}
+                                    companyHandle={company.handle}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <p className="lead">No job listings available.</p>
+                    )}
+                </div>
             </div>
         </div>
     );

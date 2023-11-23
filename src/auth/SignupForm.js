@@ -48,12 +48,12 @@ function SignupForm({ signup }) {
     }
 
     return (
-        <form className="SignupForm">
+        <div className="SignupForm">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 <h2 className="mb-3 text-center">Sign Up</h2>
 
-                <div className="card text-left">
-                    <div className="card-body text-left">
+                <div className="card text-start">
+                    <div className="card-body">
                         <form onSubmit={handleSignup}>
                             <div className="form-group mb-3">
                                 <label
@@ -159,7 +159,7 @@ function SignupForm({ signup }) {
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     );
 }
 

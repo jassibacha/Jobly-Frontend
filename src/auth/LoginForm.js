@@ -46,11 +46,16 @@ function LoginForm({ login }) {
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 <h2 className="mb-3 text-center">Login</h2>
 
-                <div className="card text-left">
-                    <div className="card-body text-left">
+                <div className="card text-start">
+                    <div className="card-body">
                         <form onSubmit={handleSubmit}>
                             <div className="form-group mb-3">
-                                <label htmlFor="username">Username</label>
+                                <label
+                                    htmlFor="username"
+                                    className="form-label"
+                                >
+                                    Username
+                                </label>
                                 <input
                                     type="text"
                                     id="username"
@@ -62,7 +67,12 @@ function LoginForm({ login }) {
                             </div>
 
                             <div className="form-group mb-4">
-                                <label htmlFor="password">Password</label>
+                                <label
+                                    htmlFor="password"
+                                    className="form-label"
+                                >
+                                    Password
+                                </label>
                                 <input
                                     type="password"
                                     id="password"

@@ -20,7 +20,7 @@ function SearchForm({ searchFor }) {
             <input
                 className="form-control flex-grow-1 mr-sm-2"
                 type="search"
-                placeholder="Search companies"
+                placeholder="Search.."
                 aria-label="Search"
                 value={searchTerm}
                 onChange={handleChange}
