@@ -114,8 +114,6 @@ function App() {
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
             <div className="App">
                 <AppRoutes login={login} signup={signup} logout={logout} />
-                {/* Display token for debugging */}
-                {token ? <p>Token: {token}</p> : <p>No token found</p>}
             </div>
         </UserContext.Provider>
     );
