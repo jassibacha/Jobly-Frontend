@@ -41,6 +41,7 @@ function CompanyDetails() {
                         company.jobs.map((job) => (
                             <div className="col-lg-6" key={job.id}>
                                 <JobsCard
+                                    id={job.id}
                                     title={job.title}
                                     salary={job.salary}
                                     equity={job.equity}

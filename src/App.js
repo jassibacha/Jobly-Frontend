@@ -29,6 +29,7 @@ const TOKEN_STORAGE_ID = 'jobly-token';
 function App() {
     const [infoLoaded, setInfoLoaded] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [applicationIds, setApplicationIds] = useState(new Set([]));
     const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
     console.debug(
@@ -107,11 +108,29 @@ function App() {
         }
     }
 
+    /**
+     * Check if a job has been applied to.
+     */
+    function hasAppliedToJob(id) {
+        return applicationIds.has(id);
+    }
+
+    /**
+     * Apply to a job, make api call and update set of application ids
+     */
+    async function applyToJob(jobId) {
+        if (hasAppliedToJob(jobId)) return;
+        JoblyApi.applyToJob(currentUser.username, jobId);
+        setApplicationIds(new Set([...applicationIds, jobId]));
+    }
+
     // Show spinner while loading user data
     if (!infoLoaded) return <LoadingSpinner />;
 
     return (
-        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <UserContext.Provider
+            value={{ currentUser, setCurrentUser, hasAppliedToJob, applyToJob }}
+        >
             <div className="App">
                 <AppRoutes login={login} signup={signup} logout={logout} />
             </div>
