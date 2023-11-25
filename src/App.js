@@ -59,6 +59,7 @@ function App() {
                         JoblyApi.token = token; // Set token in API class for future requests
                         let currentUser = await JoblyApi.getUser(username); // Fetch user data
                         setCurrentUser(currentUser); // Set user data in state
+                        setApplicationIds(new Set(currentUser.applications)); // Set applications
                     } catch (err) {
                         console.error('App loadUserInfo: problem loading', err);
                         setCurrentUser(null); // Reset user data on error
@@ -86,7 +87,9 @@ function App() {
         console.log('Signup data:', signupData);
         try {
             let token = await JoblyApi.signup(signupData); // Call signup API
+            JoblyApi.token = token;
             setToken(token); // Set received token
+            setCurrentUser(true); // Temp change to move to protected route
             return { success: true };
         } catch (errors) {
             console.error('Signup Failed', errors);
@@ -98,9 +101,13 @@ function App() {
      * Logs in a user using the provided login data.
      */
     async function login(loginData) {
+        console.debug('App login function called with:', loginData);
         try {
             let token = await JoblyApi.login(loginData); // Call login API
+            JoblyApi.token = token;
             setToken(token); // Set received token
+            setCurrentUser(true); // Temp change to move to protected route
+            console.log('Login successful, token set:', token);
             return { success: true };
         } catch (errors) {
             console.error('Login Failed', errors);

@@ -20,10 +20,8 @@ function LoginForm({ login }) {
 
         let result = await login(formData);
         console.log('Login handleSubmit Result', result);
+
         if (result.success) {
-            console.log('Result success, redirecting to /companies');
-            // Navigate is having issues with redirect, might be a state issue
-            // We might need to set a timeout here
             navigate('/companies');
         } else {
             setFormErrors(result.errors);

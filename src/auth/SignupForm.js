@@ -29,7 +29,6 @@ function SignupForm({ signup }) {
         // Call the signup function with the form data
         let result = await signup(formData);
         if (result.success) {
-            // If signup was successful, redirect to the login page
             navigate('/companies');
         } else {
             setFormErrors(result.errors);
